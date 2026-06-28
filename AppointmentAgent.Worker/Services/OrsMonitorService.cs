@@ -36,7 +36,7 @@ namespace AppointmentAgent.Worker.Services
 
                 var slots = await ReadCalendarAsync();
 
-                if (slots.Any(x => x.Holiday))
+                if (slots.Any(x => x.Available))
                 {
                     await NotifyAsync(slots);
                 }
@@ -189,7 +189,7 @@ namespace AppointmentAgent.Worker.Services
 
         private async Task NotifyAsync(List<SlotInfo> slots)
         {
-            var availableSlots = slots.Where(x => x.Holiday).ToList();            
+            var availableSlots = slots.Where(x => x.Available).ToList();            
 
             var newSlots = availableSlots.Where(x => !_cache.IsNotified($"AIIMS-NewDelhi|Orthopedics|{x.Date}")).ToList();
 
